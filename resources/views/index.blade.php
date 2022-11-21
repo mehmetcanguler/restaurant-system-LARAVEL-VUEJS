@@ -11,7 +11,9 @@
 <body>
 
     <div id="app"> 
-        <example-component :categories='@json($categories)'/>          
+        <main-component 
+        :tables_prop='@json($tables)'
+        ></main-component>          
     </div>
     
     @vite('resources/js/app.js')

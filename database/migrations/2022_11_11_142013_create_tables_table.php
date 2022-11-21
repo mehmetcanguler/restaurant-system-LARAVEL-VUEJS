@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('table_location_id');
             $table->unsignedInteger('table_no');
-            $table->string('title');
-            $table->boolean('status')->comment('0:passive, 1:active');
+            $table->boolean('status')->default(0)->comment('0:passive, 1:active');
             $table->timestamps();
         });
     }

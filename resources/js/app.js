@@ -15,8 +15,8 @@ import { createApp } from 'vue/dist/vue.esm-bundler';
 
 const app = createApp({});
 
-import ExampleComponent from './Components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
+import MainComponent from './Components/MainComponent.vue';
+app.component('main-component', MainComponent);
 
 /**
  * The following block of code may be used to automatically register your

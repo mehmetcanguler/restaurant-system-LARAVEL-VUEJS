@@ -9,11 +9,15 @@ class Table extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['table_no','title','status'];
+    protected $fillable = ['table_location_id','table_no','status','order_no'];
 
     public function order()
     {
         return $this->hasMany(Order::class);
+    }
+    public function table_location()
+    {
+        return $this->belongsTo(TableLocation::class);
     }
 }
 
