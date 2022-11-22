@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('table_id');
+            $table->unsignedBigInteger('table_id')->nullable();
             $table->boolean('payment_type')->comment('0:Cash, 1:Card')->nullable();
             $table->unsignedDecimal('total')->nullable();
             $table->boolean('status')->default(1)->comment('0:passive, 1:active');

@@ -1,9 +1,24 @@
 ,
 <template>
-    <div class="container-fluid "> 
+    <div class="container-fluid ">
         <div class="row">
-            
-        <template v-if="table_id == null" :key="table.title" v-for="table in tables">
+            <template v-if="table_id == null">
+                <div class=" d-flex justify-content-end my-2">
+                    <div class="px-1" v-if="auth_role == 1">
+                        <a class="btn btn-outline-primary" href="/admin/home">Yönetim Paneline Giriş Yap</a>
+                    </div>
+                    <form action="/logout" method="POST">
+                        <input type="hidden" :value="csrf" name="_token">
+                        <button type="submit" class="btn btn-outline-primary">
+                            Çıkış Yap
+                        </button>
+                    </form>
+                </div>
+            </template>
+        </div>
+        <div class="row">
+
+            <template v-if="table_id == null" :key="table.title" v-for="table in tables">
                 <template :key="value" v-for="value in table.table">
 
                     <template v-if="value.status == 1">
@@ -11,43 +26,44 @@
                             @click="sendTableId(table.title, value)">
                             <p>{{ table.title }}</p>
                             <p>{{ value.table_no }}</p>
-                            <template  v-for="order in value.order">
-                             <template v-if="order.status == 1"  v-for="order_detail in order.order_detail" >
-                                  <div class="d-none">
-                                    {{total = total + order_detail.product.price * order_detail.qty }}
-                                  </div>         
-                            </template>    
+                            <template v-for="order in value.order">
+                                <template v-if="order.status == 1" v-for="order_detail in order.order_detail">
+                                    <div class="d-none">
+                                        {{ total = total + order_detail.product.price * order_detail.qty }}
+                                    </div>
+                                </template>
                             </template>
-                            <p>{{total}}.00 TL</p>
-                           <div class="d-none">
-                            {{total=0}}
-                           </div>
+                            <p>{{ total }}.00 TL</p>
+                            <div class="d-none">
+                                {{ total = 0 }}
+                            </div>
                         </div>
                     </template>
 
                     <template v-else>
                         <div class="col-sm-2 border rounded p-0 m-0 empty-table text-center h2 "
-                        @click="sendTableId(table.title, value)">
+                            @click="sendTableId(table.title, value)">
                             <p>{{ table.title }}</p>
                             <p>{{ value.table_no }}</p>
-                            <template  v-for="order in value.order">
-                             <template v-if="order.status == 1"  v-for="order_detail in order.order_detail" >
-                                  <div class="d-none">
-                                    {{total = total + order_detail.product.price * order_detail.qty }}
-                                  </div>         
-                            </template>    
+                            <template v-for="order in value.order">
+                                <template v-if="order.status == 1" v-for="order_detail in order.order_detail">
+                                    <div class="d-none">
+                                        {{ total = total + order_detail.product.price * order_detail.qty }}
+                                    </div>
+                                </template>
                             </template>
-                            <p>{{total}}.00 TL</p>
-                           <div class="d-none">
-                            {{total=0}}
-                           </div>
+                            <p>{{ total }}.00 TL</p>
+                            <div class="d-none">
+                                {{ total = 0 }}
+                            </div>
                         </div>
                     </template>
 
                 </template>
-          
-        </template>
-    </div>
+
+            </template>
+        </div>
+
 
         <template v-if="table_id != null">
             <div class="row">
@@ -89,11 +105,13 @@ export default {
             categories: {},
             table_name: null,
             tables: {},
-            total:0,
+            total: 0,
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         };
     },
     props: {
         tables_prop: {},
+        auth_role: 0
     },
     components: {
         // TableComponent,
@@ -106,7 +124,7 @@ export default {
             this.table_id = value.id;
             axios
                 .get("/order/" + value.id)
-                .then((data) => {  
+                .then((data) => {
                     this.categories = data.data.categories;
                     this.order = data.data.order
                 })
@@ -149,7 +167,7 @@ body {
 
 .full-table {
     height: 180px;
-    width: 16,66666666666667%;
+    width: 16, 66666666666667%;
     background-color: green;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -157,7 +175,7 @@ body {
 
 .empty-table {
     height: 180px;
-    width: 16,66666666666667%;
+    width: 16, 66666666666667%;
     background-color: grey;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -165,7 +183,7 @@ body {
 
 .full-table:hover {
     height: 180px;
-    width: 16,66666666666667%;
+    width: 16, 66666666666667%;
     background-color: greenyellow;
     border: 1px solid transparent;
     cursor: pointer;
@@ -173,7 +191,7 @@ body {
 
 .empty-table:hover {
     height: 180px;
-    width: 16,66666666666667%;
+    width: 16, 66666666666667%;
     background-color: gainsboro;
     border: 1px solid transparent;
     cursor: pointer;
