@@ -11,14 +11,36 @@
                             @click="sendTableId(table.title, value)">
                             <p>{{ table.title }}</p>
                             <p>{{ value.table_no }}</p>
+                            <template  v-for="order in value.order">
+                             <template v-if="order.status == 1"  v-for="order_detail in order.order_detail" >
+                                  <div class="d-none">
+                                    {{total = total + order_detail.product.price * order_detail.qty }}
+                                  </div>         
+                            </template>    
+                            </template>
+                            <p>{{total}}.00 TL</p>
+                           <div class="d-none">
+                            {{total=0}}
+                           </div>
                         </div>
                     </template>
 
                     <template v-else>
                         <div class="col-sm-2 border rounded p-0 m-0 empty-table text-center h2 "
-                            @click="sendTableId(table.title, value)">
+                        @click="sendTableId(table.title, value)">
                             <p>{{ table.title }}</p>
                             <p>{{ value.table_no }}</p>
+                            <template  v-for="order in value.order">
+                             <template v-if="order.status == 1"  v-for="order_detail in order.order_detail" >
+                                  <div class="d-none">
+                                    {{total = total + order_detail.product.price * order_detail.qty }}
+                                  </div>         
+                            </template>    
+                            </template>
+                            <p>{{total}}.00 TL</p>
+                           <div class="d-none">
+                            {{total=0}}
+                           </div>
                         </div>
                     </template>
 
@@ -67,7 +89,7 @@ export default {
             categories: {},
             table_name: null,
             tables: {},
-            art:0,
+            total:0,
         };
     },
     props: {
@@ -96,12 +118,14 @@ export default {
                 });
         },
         new_order(value) {
+            console.log('sipariş güncellendi')
             this.order = value;
         },
         go_table() {
             this.table_id = null;
         },
         new_tables(value) {
+            console.log('masalar güncellendi')
             this.tables = value
         }
     },

@@ -30,7 +30,6 @@
                 class="form-control" v-model="request.title">
                 </textarea>
 
-
         </div>
         <div class="col-3 d-flex align-items-center justify-content-start">
 
@@ -94,6 +93,7 @@ export default {
                     }
                 });
             this.qty = 1;
+            this.request={};
         }
     },
 

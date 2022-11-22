@@ -65,7 +65,9 @@
                 </div>
             </template>
             <template v-else>
-                <div class="alert alert-success h1">Masa Hesabı Başarıyla Ödendi</div>
+                <div class="alert alert-success h1">
+                    {{ success }}
+                </div>
             </template>
         </div>
     </div>
@@ -78,7 +80,7 @@ export default {
             total: 0,
             field: {},
             errors: {},
-            success: false
+            success: false,
         }
     },
     props: {
@@ -96,7 +98,10 @@ export default {
             axios
                 .put('edit-order-detail-qty/' + id, this.field)
                 .then((data) => {
-                    this.$emit('new_order', data.data);
+                    this.$emit('new_order', data.data.order);
+                    if (data.data.tables) {
+                        this.$emit('new_tables', data.data.tables);
+                    }
                 })
                 .catch((error) => {
                     if (error.response.status === 422) {
@@ -114,7 +119,10 @@ export default {
                 axios
                     .put('edit-order-detail-qty/' + id, this.field)
                     .then((data) => {
-                        this.$emit('new_order', data.data);
+                        this.$emit('new_order', data.data.order);
+                        if (data.data.tables) {
+                            this.$emit('new_tables', data.data.tables);
+                        }
                     })
                     .catch((error) => {
                         if (error.response.status === 422) {
@@ -129,7 +137,10 @@ export default {
             axios
                 .delete('delete-order-detail/' + id)
                 .then((data) => {
-                    this.$emit('new_order', data.data);
+                    this.$emit('new_order', data.data.order);
+                    if (data.data.tables) {
+                        this.$emit('new_tables', data.data.tables);
+                    }
                 })
                 .catch((error) => {
                     if (error.response.status === 422) {
@@ -146,6 +157,11 @@ export default {
                         if (data.data.tables) {
                             this.$emit('new_tables', data.data.tables);
                         }
+                        this.success = "Sipariş Başarıyla İptal Edildi"
+
+                        setTimeout(() => {
+                            this.success = false
+                        }, 2000)
                     })
                     .catch((error) => {
                         if (error.response.status === 422) {
@@ -161,7 +177,11 @@ export default {
                 .then((data) => {
                     this.$emit('new_order', null);
                     this.$emit('new_tables', data.data);
-                    this.success = true
+                    if (payment_type == 0) {
+                        this.success = "Masa Hesabı Başarıyla Nakit Ödendi"
+                    } else {
+                        this.success = "Masa Hesabı Başarıyla Kredi Kartı ile Ödendi"
+                    }
 
                     setTimeout(() => {
                         this.success = false

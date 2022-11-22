@@ -16,8 +16,13 @@ class MainController extends Controller
 {
     public function index()
     {
-        $data['tables']  = TableLocation::with('table')->get();
+        $data['tables']  = TableLocation::with('table.order.order_detail.product')->get();
         return view('index', $data);
+    }
+    public function tables()
+    {
+        $data['tables']  = TableLocation::with('table.order.order_detail.product')->get();
+        return response()->json($data);
     }
     public function order($table_id)
     {
@@ -68,9 +73,8 @@ class MainController extends Controller
         if ($table->status == 0) {
             $table->status = 1;
             $table->save();
-            $data['tables']  = TableLocation::with('table')->get();
         }
-
+        $data['tables']  = TableLocation::with('table.order.order_detail.product')->get();
         $data['order'] = Order::with('order_detail.product')->find($order_detail->order_id);
         return response()->json($data);
     }
@@ -79,9 +83,10 @@ class MainController extends Controller
         $order_detail =  OrderDetail::find($id) ?? abort(404);
         $order_detail->qty = $request->qty;
         $order_detail->save();
-
-        $order = Order::with('order_detail.product')->find($order_detail->order_id);
-        return response()->json($order);
+        
+        $data['tables']  = TableLocation::with('table.order.order_detail.product')->get();
+        $data['order'] = Order::with('order_detail.product')->find($order_detail->order_id);
+        return response()->json($data);
     }
 
     public function deleteOrderDetail($id)
@@ -90,8 +95,9 @@ class MainController extends Controller
         $order_id = $order_detail->order_id;
         $order_detail->delete();
 
-        $order = Order::with('order_detail.product')->find($order_id);
-        return response()->json($order);
+        $data['tables']  = TableLocation::with('table.order.order_detail.product')->get();
+        $data['order'] = Order::with('order_detail.product')->find($order_id);
+        return response()->json($data);
     }
     public function completeOrder(MainCompleteOrderRequest $request)
     {
@@ -115,7 +121,7 @@ class MainController extends Controller
         $table->status = 0;
         $table->save();
 
-        $tables = TableLocation::with('table')->get();
+        $tables = TableLocation::with('table.order.order_detail.product')->get();
         return response()->json($tables);
     }
     public function getProduct($id)
@@ -131,7 +137,7 @@ class MainController extends Controller
         $table->status = 0;
         $table->save();
         $order->delete();
-        $data['tables']  = TableLocation::with('table')->get();
+        $data['tables']  = TableLocation::with('table.order.order_detail.product')->get();
         $data['order'] = null;
 
         return response()->json($data);
