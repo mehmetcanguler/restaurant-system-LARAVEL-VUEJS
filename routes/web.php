@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
    Route::resource('/order',OrderController::class);
    Route::resource('/user',UserController::class);
    Route::resource('/table',TableController::class);
+   Route::resource('/product',ProductController::class);
+   Route::resource('/category',CategoryController::class);
    Route::post('tableLocation',[TableController::class,'tableLocation'])->name('tableLocation');
    Route::get('tables/delete/',[TableController::class,'deleteTableShow'])->name('delete.table.show');
    Route::delete('tables/delete/{id}',[TableController::class,'deleteTable'])->name('delete.table.destroy');

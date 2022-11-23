@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TableRequest;
 use App\Models\Table;
 use App\Models\TableLocation;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class TableController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TableRequest $request)
     {
         $table_location = TableLocation::find($request->table_location_id);
         for ($i = $table_location->table->count() + 1; $i <= $request->qty + $table_location->table->count(); $i++) {

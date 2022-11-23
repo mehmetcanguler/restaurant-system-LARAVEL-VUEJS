@@ -124,8 +124,5 @@ export default {
     border: 2px solid #d0d0d0;
 }
 
-.product {
-    height: 70px;
 
-}
 </style>

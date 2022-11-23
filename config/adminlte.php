@@ -326,6 +326,16 @@ return [
             'url'         => '/admin/order',
             'icon'        => 'far fa-fw fa-file',
         ],
+        [
+            'text'        => 'Kategoriler',
+            'url'         => '/admin/category',
+            'icon'        => 'far fa-fw fa-file',
+        ],
+        [
+            'text'        => 'Ürünler',
+            'url'         => '/admin/product',
+            'icon'        => 'far fa-fw fa-file',
+        ],
         
     ],
 
